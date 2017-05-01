@@ -8,15 +8,18 @@ switch type
         ypos = 0.4;
     
     case 1  % Counter-Clockwise
-        text = 'Tone Discrimination';
+        text = 'Tone Discrimination Task';
         % text = [text '\n\n\n Which target is farther counter-clockwise?'];
-        text = [text '\n\n\n\n\n Was the second tone higher or lower?'];
+        text = [text '\n\n\n\n\n Was the second tone higher(m), lower(z), or not present(n)?'];
         ypos = 0.25;
        
     case 2 %Break Time
         text = 'Break time';
         ypos = .4;
         
+    case 3  %Confidence
+        text = 'How confident are you in your response?';
+        ypos = 0.25;
     otherwise
         text = [];
     

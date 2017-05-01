@@ -1,4 +1,4 @@
-function [correct] = aud_detect()
+function [] = aud_detect(screen)
 % Parameter values
 sample_rate  = 44100;    % sampling rate (per sec)
 sound_dur    = 0.20;     % sound duration, s (200 ms)
@@ -12,13 +12,18 @@ dev_prob     = .5;       % probabiltiy of deviant
 
 
 % Ask for number of trials
-trial_num    = 5;
+trial_num    = 4;
 correct      = 0;        % counting num correct
 wrong        = 0;        % counting num wrong
 
 % Begin Loop
 for trial = 1:trial_num
+    % Draw fixation cross
+    Screen('DrawTexture', screen.window, screen.cross, [], [], 0); 
 
+    % Flip to the screen
+    Screen('Flip', screen.window);
+    
     % Deviant sound presence
     if rand(1) <= dev_prob
         dev = 'pres';
@@ -86,18 +91,11 @@ for trial = 1:trial_num
     % Completed Train
     sound(train,sample_rate)
     
-    %Wait before displaying question
-    WaitSecs(1.5);
-    resp = input('Was the deviant tone (u)p, (d)own, or (n)ot present? ','s');
+    showinstructions(1,screen);
     
-    %Responses
-    if resp == cond
-        'correct'
-        correct = correct + 1;
-    else 
-        'try again'
-        wrong = wrong +1;
-    end
+    [responsenumber] = getresponse(cond);
     
+    feeback(cond,responsenumber,screen);
+
 end
 end

@@ -40,6 +40,7 @@ screen.pxPerDeg     = screen.windowRect(4) / screen.angle;
 % IFI and Screen Info
 screen.ifi = Screen('GetFlipInterval', screen.window);
 Screen('TextFont', screen.window, 'Times New Roman');
+screen = fixcross(screen);
 
 showinstructions(0,screen);
 WaitSecs(.5);
