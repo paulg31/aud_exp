@@ -1,6 +1,5 @@
-function  [] = feeback(cond,responsenumber,screen)
+function  [correct] = feeback(cond,responsenumber,screen)
 feedbackType = 'text';
-line_1 = 'poop';
 % Determine what is correct for each block
 switch cond 
     case 'u'
@@ -14,34 +13,32 @@ switch cond
     case 'n'
         category = 0;
         correct = (category == responsenumber);
+    case 'confid'
+        feedbackType = 'none';
 end
-
-%Figure out if response was correct
-if correct
-    feedback_text = '\n\n Correct!';
-    text_color = [0 1 0];
+if feedbackType ~= 'none'    
+    %Figure out if response was correct
+    if correct
+        feedback_text = ' Correct!';
+        text_color = [0 1 0];
+    else
+        feedback_text = ' Incorrect!';
+        text_color = [1 0 0];
+    end
 else
-    feedback_text = '\n\n Incorrect!';
-    text_color = [1 0 0];
+    correct = NaN;
 end
 
 % For the training blocks, display feedback after each trial.
 % For the test blocks, do nothing.
-
-switch feedbackType
-    case 'text'         
+if feedbackType ~= 'none'        
         % Text feedback
         Screen('TextSize', screen.window, screen.text_size);
-        DrawFormattedText(screen.window,line_1,...
-            'center', 'center', screen.white);
         DrawFormattedText(screen.window,feedback_text,...
             'center', 'center', text_color);
         % Flip to the screen
         Screen('Flip', screen.window);
         WaitSecs(1);
-
-    case 'none'        
-        % Do nothing
 end
 end
 

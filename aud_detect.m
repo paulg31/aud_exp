@@ -87,15 +87,37 @@ for trial = 1:trial_num
         for j = dev_place+1:tone_num
             train = [train sandp_ramps];
         end
-         
+     
     % Completed Train
     sound(train,sample_rate)
-    
+    WaitSecs(1.5);   
     showinstructions(1,screen);
+    block_type = 'train';
+    switch block_type
+        case 'train'
+            [responsenumber] = getresponse(cond);
+            showinstructions(3,screen)
+            [confnumber] = getresponse('confid');
+            confnumber
+            [correct] = feeback(cond,responsenumber,screen);
+        case 'test'
+            [responsenumber] = getresponse(cond);
+            showinstructions(3,screen)
+            [confnumber] = getresponse('confid');
+            [correct] = feeback(cond,responsenumber,screen);
+            confnumber
+    end
     
-    [responsenumber] = getresponse(cond);
     
-    feeback(cond,responsenumber,screen);
-
+    if trial == (trial_num/2)
+        showinstructions(2,screen);
+    end
+    
+    data.mat{iBlock}(trial,:) = [ ...
+            trial, responseAngle, point_totes,trial_mean,mouse_start(1), mouse_start(2),design.type_draw ...
+        ];
+        
+        % Save data at the end of each trial
+        save(outputFile, 'data');
 end
 end
